@@ -23,4 +23,5 @@ urlpatterns = [
     path('home/',views.home),
     path('', views.home, name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('formulario/', views.formulario)
 ]

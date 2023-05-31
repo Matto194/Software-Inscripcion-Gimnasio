@@ -25,9 +25,56 @@
       <div class= 'row' >
         
         <!--Raul Detalless-->
-        <div class= 'col-3'> hola</div> 
+        <div class= 'col-5'> 
+          <h1>Ingresar estudiante 🏋️‍♂️</h1>
+          <!--Formulario-->
+          <form action="" method="POST">
+            {% csrf_token %}
+           
+            {{ form }}
+            
+            <input class="btn btn-primary" type="submit" value="Guardar">
+        </form>
+
+        {% if 'ok' in request.GET %}
+            <div class="alert alert-success mt-5" role="alert">
+                <strong>El mensaje se ha enviado correctamente</strong>
+            </div>
+        {% endif %}
+
+        {% if 'error' in request.GET %}
+            <div class="alert alert-danger mt-5" role="alert">
+                <strong>El mensaje no ha podido ser enviado. Por favor, intente más tarde</strong>
+            </div>
+        {% endif %}
+
+        <!--Fin del Formulario-->
+        <!--Tabla-->
+        <br><br>
+        <div class="table-responsive">
+          <table class="table table-striped">        <!-- Funcion para poner una tabla con estilos de bootstrap-->
+              <thead>                                  <!-- Pone los titulos de las columnas -->
+                  <tr>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>rut</th>
+                  </tr>
+              </thead>
+              <tbody>             
+               {% for u in usuarios %}                <!-- Recorre la tabla correspondencias pasada como parametro-->
+              <tr>                                            <!-- extrae los datos de la tabla 1 por 1 y los ubica en -->
+                  <td>{{u.nombre}}</td>              <!-- su columna (atributo) correspondiente-->         
+                  <td>{{u.apellido}}</td>
+                  <td>{{u.rut}}</td>
+              </tr>
+              {% endfor %}  
+              </tbody>
+          </table>
+      </div>
+        <!--Fin de la Tabla-->
+        </div> 
         <!--Mati Calendario-->
-        <div class= 'col-9'>{% lorem 5 b %}</div>   
+        <div class= 'col-7'>{% lorem 5 b %}</div>   
       </div>   
     </div> 
       
