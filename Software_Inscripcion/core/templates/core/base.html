@@ -9,19 +9,46 @@
     <title>{% block title %} {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'core/css/bootstrap.css'%}">
     <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+    <style>
+      *{
+          font-family: 'Times New Roman', Times, serif;
+        }
+
+      .navbar {
+        background-color: #192a56;
+        } 
+
+    .navbar-dark .navbar-nav .nav-link {
+        color: #fff;
+        }
+  
+    </style>
 
 </head>
 <body>
-
+    
     <!-- barra de navegacion -->
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-         <div class="col-md-10"><img src="{% static 'core/img/Logo_UTFSM.png' %}" alt="Logo Pagina" width="60" height="60"></div>
-          <div class="col-md-1"><a class="navbar-brand" href="{%url 'admin:index'%}">Iniciar sesión</a></div>
-        </div>
-      </nav>  
-
+    <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
+      <div class="container">
+          <img src="{% static 'core/img/Logo_UTFSM.png' %}" alt="Logo" height=50px width=50px hspace=5px>
+          <a class="navbar-brand" href="#">Universidad Tecnico Federico Santa Maria</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'admin:index'%}">Inicio de Sesion como Administrador</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+    
+    <br>
     <div class= 'container'>
       
       <div class= 'row' >
@@ -32,10 +59,11 @@
             <!--Formulario-->
             <form action="" method="POST">
               {% csrf_token %}
-             
-              {{ form }}
               
+              {{ form }}
+              <br>
               <input class="btn btn-primary" type="submit" value="Guardar">
+              
           </form>
   
           {% if 'ok' in request.GET %}
@@ -79,6 +107,15 @@
         <div class= 'col-7'>
           <div id='calendar'></div>
         </div>   
+
+      <div id="popup" class="position-fixed top-0 start-0 w-100 h-100 d-none">
+          <div class="position-relative d-flex align-items-center justify-content-center h-100">
+              <div class="card p-3">
+                  <button id="agendarBtn" class="btn btn-primary">Agendar hora</button>
+              </div>
+          </div>
+      </div>
+
       </div>   
     </div> 
       
@@ -92,6 +129,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -99,10 +137,35 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
             height: 450,
             initialView: 'timeGridFiveDay',
+
+            select: function(info){
+              var popup = document.getElementById('popup');
+              popup.classList.remove('d-none');
+              popup.style.zIndex = '1050';
+              
+              
+
+              var hora_agendada = moment(info.start).format('HH:mm');
+
+              var agendarBtn = document.getElementById('agendarBtn');
+              agendarBtn.addEventListener('click', function(){
+
+                var event = {
+                  title: 'Hora Agendada',
+                  start: info.start,
+                  end: info.start,
+                  color: 'yellow'
+                };
+                calendar.addEvent(event);
+                popup.classList.add('d-none');
+              });
+
+            },
             views:{
               timeGridFiveDay:{
                 type: 'timeGridWeek',
                 weekends: false,
+                selectable: true,
                 allDaySlot: false
               }
             },
@@ -110,11 +173,14 @@
             slotLabelFormat: {
               hour: 'numeric'
             },
+
             locale: 'es',
             weekends: 'false',
             slotMinTime: '04:00',
             slotMaxTime: '11:00'
+
             });
+
             var slotDuration = calendar.getOption('slotDuration')
             console.log(slotDuration)
             calendar.render();
