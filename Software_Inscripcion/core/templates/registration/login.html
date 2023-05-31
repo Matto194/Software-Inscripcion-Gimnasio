@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
-
+{% load static %}
 <head>
     <title>Formulario de inicio de sesión</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
+        
+        *{
+            font-family: 'Times New Roman', Times, serif;
+        }
+
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background-image: url("{%static 'core/img/fit.png' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navbar {
             background-color: #192a56;
         }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: #fff;
+        }
+
 
         .login-form {
             width: 350px;
             padding: 20px;
             background-color: #fff;
             border-radius: 5px;
+            margin: 0 auto;
+            margin-top: 100px;
         }
 
         .login-form h2 {
@@ -42,23 +56,53 @@
 </head>
 
 <body>
-    <div class="login-form">
-        <h2 class="text-black">Iniciar sesión</h2>
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username" class="text-black">Nombre de usuario:</label>
-                <input type="text" class="form-control" name="username" required>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
+        <div class="container">
+            <img src="{% static 'core/img/Logo_UTFSM.png' %}" alt="Logo" height=50px width=50px hspace=5px>
+            <a class="navbar-brand" href="#">Universidad Tecnico Federico Santa Maria</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index'%}">Inicio de Sesion como Administrador</a>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
 
-            <div class="form-group">
-                <label for="password" class="text-black">Contraseña:</label>
-                <input type="password" class="form-control" name="password" required>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="my-4">
+                    <img src="{% static 'core/img/PortadaGimnasio.png' %}" alt="Portada" height=350px width=600px>
+                </div>
             </div>
+            <div class="col-md-6">
+                <div class="login-form">
+                    <h2 class="text-black">Iniciar sesión</h2>
+                    <form method="post">
+                        <div class="form-group">
+                            {% csrf_token %}
+                            <label for="username" class="text-black">Nombre de usuario:</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-        </form>
+                        <div class="form-group">
+                            <label for="password" class="text-black">Contraseña:</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
