@@ -9,7 +9,11 @@
     <title>{% block title %} {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'core/css/bootstrap.css'%}">
     <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
-    
+    <style>
+        .green-cell {
+          background-color: green !important;
+        }
+      </style>
 
 </head>
 <body>
@@ -99,6 +103,10 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
             height: 450,
             initialView: 'timeGridFiveDay',
+            select: function(info) {
+                info.jsEvent.target.classList.add('green-cell');
+              },
+            selectable: true,
             views:{
               timeGridFiveDay:{
                 type: 'timeGridWeek',
@@ -106,7 +114,7 @@
                 allDaySlot: false
               }
             },
-          
+    
             slotLabelFormat: {
               hour: 'numeric'
             },
