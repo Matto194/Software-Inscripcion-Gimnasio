@@ -20,7 +20,6 @@ def home(request):
         else:
             return redirect(reverse('home')+'?error') 
 
-
     return render(request,'core/base.html', {'form':usuario_form,'usuarios':usuarios})
 
 def prueba(request):
