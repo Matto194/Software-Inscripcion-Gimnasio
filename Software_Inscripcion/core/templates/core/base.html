@@ -27,9 +27,9 @@
       <div class= 'row' >
         
         <!--Raul Detalles-->
-        <div class= 'col-3'> {% lorem 4 b %}</div> 
+        <div class= 'col-5'> {% lorem 4 b %}</div> 
         <!--Mati Calendario-->
-        <div class= 'col-9'>
+        <div class= 'col-7'>
           <div id='calendar'></div>
         </div>   
       </div>   
@@ -49,8 +49,26 @@
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'timeGridWeek'
+        height: 450,
+        initialView: 'timeGridFiveDay',
+        views:{
+          timeGridFiveDay:{
+            type: 'timeGridWeek',
+            weekends: false,
+            allDaySlot: false
+          }
+        },
+      
+        slotLabelFormat: {
+          hour: 'numeric'
+        },
+        locale: 'es',
+        weekends: 'false',
+        slotMinTime: '04:00',
+        slotMaxTime: '11:00'
         });
+        var slotDuration = calendar.getOption('slotDuration')
+        console.log(slotDuration)
         calendar.render();
       });
     </script>
