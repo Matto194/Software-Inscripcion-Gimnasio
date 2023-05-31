@@ -84,8 +84,9 @@
             <div class="col-md-6">
                 <div class="login-form">
                     <h2 class="text-black">Iniciar sesión</h2>
-                    <form>
+                    <form method="post">
                         <div class="form-group">
+                            {% csrf_token %}
                             <label for="username" class="text-black">Nombre de usuario:</label>
                             <input type="text" class="form-control" name="username" required>
                         </div>
