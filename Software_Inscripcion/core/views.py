@@ -22,6 +22,5 @@ def home(request):
 
     return render(request,'core/base.html', {'form':usuario_form,'usuarios':usuarios})
 
-def prueba(request):
-    return render(request, 'core/home.html')
+
 
