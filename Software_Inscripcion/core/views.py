@@ -39,3 +39,8 @@ def comentarios(request):
     else:
         comentario_form = ComentarioForm()
     return render(request, 'core/foro.html', {'form':comentario_form, 'comentarios': comentarios})
+
+def tema(request, parametro):
+    tema_especifico = Comentario.objects.get(id=parametro)
+
+    return render(request,'core/respuestas.html', {'tema': tema_especifico})

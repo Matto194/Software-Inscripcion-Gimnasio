@@ -10,18 +10,8 @@
 <div class='container'>
     <div class='row'>
         <div class="col">
-            <!--
-            <div class="div"> <h1>Nuevo Tema 💡</h1></div>
-            <form action="" method="POST">
-                {% csrf_token %}
-            
-                {{ form }}
-                
-                <input class="btn btn-primary" type="submit" value="Enviar">
-            
-            </form>
-                -->
 
+          <!-- FROMULARIO-->
             <div class="card text-center">
                 <div class="card-header">
                     Nuevo Tema 💡
@@ -38,7 +28,63 @@
                 </form>
     
               </div>      
-    <!--
+             <!-- FIN FROMULARIO-->
+        
+  
+        <style>
+          /* Estilo para los enlaces */
+          a {
+            color: inherit; /* Establece el color heredado del elemento padre */
+            text-decoration: none; /* Elimina la decoración del enlace */
+          }
+          
+          /* Estilo para los enlaces al pasar el mouse sobre ellos */
+          a:hover {
+            text-decoration: underline; /* Agrega subrayado al pasar el mouse sobre el enlace */
+          }
+        </style>
+    
+    <!--TABLA DE FORO-->
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+              <th scope="col"><h1>🌐 Foro</h1></th>
+              <th scope="col"><h1></h1></th>
+              <th scope="col"><h1></h1></th>
+            </tr>
+          </thead>
+        <tbody>
+            {% for comentario in comentarios %}
+          <tr>
+            <td> 💬 {{ comentario.autor }}
+              </td>
+            <td><a href="{% url 'tema' comentario.id  %}">{{ comentario.contenido }}</a></td>
+            <td>{{ comentario.fecha_creacion }}</td>
+            <td>{{ comentario.id }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+</div>
+
+
+
+<!-- CODIGO ANTERIOR -->
+<!--
+
+            
+            <div class="div"> <h1>Nuevo Tema 💡</h1></div>
+            <form action="" method="POST">
+                {% csrf_token %}
+            
+                {{ form }}
+                
+                <input class="btn btn-primary" type="submit" value="Enviar">
+            
+            </form>
+              
+
             <br><br>
             <h2>Foro</h2> 
             {% for comentario in comentarios %}
@@ -52,24 +98,22 @@
             {% endfor %}
         </div>
     </div>
-        -->
-    <table class="table table-dark table-hover">
-        <thead>
-            <tr>
-              <th scope="col"><h1>🌐 Foro</h1></th>
-              <th scope="col"><h1></h1></th>
-              <th scope="col"><h1></h1></th>
-            </tr>
-          </thead>
-        <tbody>
-            {% for comentario in comentarios %}
-          <tr>
-            <td> 💬 {{ comentario.autor }}</td>
-            <td>{{ comentario.contenido }}</td>
-            <td>{{ comentario.fecha_creacion }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-</div>
+
+ACORDION EN CASO DE 
+<div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Accordion Item #1
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                  </div>
+                </div>  
+
+
+-->
 {% endblock %}
