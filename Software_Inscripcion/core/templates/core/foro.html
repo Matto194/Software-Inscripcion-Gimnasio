@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %} 
+{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %} 
+
+<div class='container'>
+    <div class='row'>
+        <form action="" method="POST">
+            {% csrf_token %}
+        
+            {{ form }}
+            
+            <input class="btn btn-primary" type="submit" value="Guardar">
+        
+        </form>
+
+
+        {% for comentario in comentarios %}
+            <div>
+            <h4>{{ comentario.autor }}</h4>
+            <p>{{ comentario.contenido }}</p>
+            <p>{{ comentario.fecha_creacion }}</p>
+            </div>
+        {% empty %}
+            <p>No hay comentarios.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Usuario
-
+from .models import Comentario
 
 
 
@@ -18,3 +18,13 @@ class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ['nombre', 'apellido', 'rut', 'correo']
+
+
+class ComentarioForm(forms.ModelForm):
+
+    autor = forms.CharField(label='Autor', required=True, min_length=0, max_length=25, widget=forms.TextInput(attrs={'clas':'form-control', 'placeholder':'Introduzca nombre','style': 'display:flex;'}))
+    contenido =forms.CharField(label='Contenido', required=True, min_length=0, max_length=100, widget=forms.TextInput(attrs={'clas':'form-control', 'placeholder':'Contenido','style': 'display:flex;'}))
+
+    class Meta:
+        model = Comentario
+        fields = ('autor', 'contenido')
