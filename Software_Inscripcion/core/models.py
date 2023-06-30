@@ -15,6 +15,7 @@ class Comentario(models.Model):
     autor = models.CharField(max_length=100)
     contenido = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-
+    comentario_padre = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='respuestas')
+    
     def __str__(self):
         return self.contenido

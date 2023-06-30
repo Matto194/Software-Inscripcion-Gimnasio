@@ -26,7 +26,7 @@ def home(request):
     return render(request,'core/index.html', {'form':usuario_form,'usuarios':usuarios})
 
 def comentarios(request):
-    comentarios = Comentario.objects.all()
+    comentarios = Comentario.objects.filter(comentario_padre=None).order_by('-fecha_creacion')  # Obtiene solo los comentarios principales
     comentario_form = ComentarioForm()
     
     if request.method == 'POST':
@@ -43,4 +43,25 @@ def comentarios(request):
 def tema(request, parametro):
     tema_especifico = Comentario.objects.get(id=parametro)
 
-    return render(request,'core/respuestas.html', {'tema': tema_especifico})
+    comentarios = Comentario.objects.filter(comentario_padre=parametro)  # Obtiene solo los comentarios principale
+
+    comentario_form = ComentarioForm()
+
+    comentario_padre = Comentario.objects.get(id=parametro)
+
+    if request.method == 'POST':
+        comentario_form = ComentarioForm(data=request.POST)
+        if comentario_form.is_valid():
+            comentario = comentario_form.save(commit = False)
+            comentario.comentario_padre = comentario_padre
+            comentario_form = comentario
+            comentario_form.save()
+            url_tema = reverse('tema', kwargs={'parametro': parametro})
+            return redirect(url_tema +'?ok')
+        else:
+            url_tema = reverse('tema', kwargs={'parametro': parametro})
+            return redirect(url_tema +'?error') 
+    else:
+        comentario_form = ComentarioForm()
+
+    return render(request,'core/tema.html', {'tema': tema_especifico, 'comentarios': comentarios,'form':comentario_form})
