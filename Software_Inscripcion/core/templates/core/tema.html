@@ -48,6 +48,13 @@
                         <footer class="blockquote-footer">{{ comentario.fecha_creacion }}</footer> </p>
                    </td>
                   </tr>
+                  {% empty %}
+                    <tr>
+                      <td>                   
+                        <br>
+                        <h3>No hay respuestas.</h3>
+                      </td>
+                    </tr>
                   {% endfor %}
                   
                 </tbody>
