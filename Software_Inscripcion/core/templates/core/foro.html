@@ -9,25 +9,67 @@
 
 <div class='container'>
     <div class='row'>
-        <form action="" method="POST">
-            {% csrf_token %}
-        
-            {{ form }}
+        <div class="col">
+            <!--
+            <div class="div"> <h1>Nuevo Tema 💡</h1></div>
+            <form action="" method="POST">
+                {% csrf_token %}
             
-            <input class="btn btn-primary" type="submit" value="Guardar">
-        
-        </form>
+                {{ form }}
+                
+                <input class="btn btn-primary" type="submit" value="Enviar">
+            
+            </form>
+                -->
 
-
-        {% for comentario in comentarios %}
-            <div>
-            <h4>{{ comentario.autor }}</h4>
-            <p>{{ comentario.contenido }}</p>
-            <p>{{ comentario.fecha_creacion }}</p>
-            </div>
-        {% empty %}
-            <p>No hay comentarios.</p>
-        {% endfor %}
+            <div class="card text-center">
+                <div class="card-header">
+                    Nuevo Tema 💡
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Ingrese un tema de conversación</h5>
+                  <p class="card-text">Su tema será respondido por los diferentes usuarios participantes.</p>
+                  <form action="" method="POST">
+                    {% csrf_token %}
+                
+                    {{ form }}
+                    <br>
+                    <input class="btn btn-dark" type="submit" value="Enviar">
+                </form>
+    
+              </div>      
+    <!--
+            <br><br>
+            <h2>Foro</h2> 
+            {% for comentario in comentarios %}
+                <div>
+                <h4>{{ comentario.autor }}</h4>
+                <p>{{ comentario.contenido }}</p>
+                <p>{{ comentario.fecha_creacion }}</p>
+                </div>
+            {% empty %}
+                <p>No hay comentarios.</p>
+            {% endfor %}
+        </div>
     </div>
+        -->
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+              <th scope="col"><h1>🌐 Foro</h1></th>
+              <th scope="col"><h1></h1></th>
+              <th scope="col"><h1></h1></th>
+            </tr>
+          </thead>
+        <tbody>
+            {% for comentario in comentarios %}
+          <tr>
+            <td> 💬 {{ comentario.autor }}</td>
+            <td>{{ comentario.contenido }}</td>
+            <td>{{ comentario.fecha_creacion }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 </div>
 {% endblock %}
