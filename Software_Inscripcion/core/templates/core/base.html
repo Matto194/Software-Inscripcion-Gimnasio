@@ -34,13 +34,16 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
       <div class="container">
           <img src="{% static 'core/img/Logo_UTFSM.png' %}" alt="Logo" height=50px width=50px hspace=5px>
-          <a class="navbar-brand" href="#">Universidad Tecnico Federico Santa Maria</a>
+          <a class="navbar-brand" href="{% url 'home' %}">Universidad Tecnico Federico Santa Maria</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'foro' %}">Foro</a>
+                  </li>                
                   <li class="nav-item">
                       <a class="nav-link" href="{% url 'admin:index'%}">Inicio de Sesion como Administrador</a>
                   </li>
@@ -49,87 +52,7 @@
       </div>
   </nav>
     
-    <br>
-    <div class= 'container'>
-      
-      <div class= 'row' >
-        
-          <!--Raul Detalless-->
-          <div class= 'col-5'> 
-            <h1>Ingresar estudiante 🏋️‍♂️</h1>
-            <!--Formulario-->
-            <form action="" method="POST">
-              {% csrf_token %}
-              
-              {{ form }}
-              <br>
-              <input class="btn btn-primary" type="submit" value="Guardar">
-              
-          </form>
   
-          {% if 'ok' in request.GET %}
-              <div class="alert alert-success mt-5" role="alert">
-                  <strong>El estudiante se ingresó correctamente</strong>
-              </div>
-          {% endif %}
-  
-          {% if 'error' in request.GET %}
-              <div class="alert alert-danger mt-5" role="alert">
-                  <strong>El mensaje no ha podido ser enviado. Por favor, intente más tarde</strong>
-              </div>
-          {% endif %}
-  
-          <!--Fin del Formulario-->
-          <!--Tabla-->
-          <br><br>
-          <div class="table-responsive">
-            <table class="table table-striped">        <!-- Funcion para poner una tabla con estilos de bootstrap-->
-                <thead>                                  <!-- Pone los titulos de las columnas -->
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>rut</th>
-                    </tr>
-                </thead>
-                <tbody>             
-                 {% for u in usuarios %}                <!-- Recorre la tabla correspondencias pasada como parametro-->
-                <tr>                                            <!-- extrae los datos de la tabla 1 por 1 y los ubica en -->
-                    <td>{{u.nombre}}</td>              <!-- su columna (atributo) correspondiente-->         
-                    <td>{{u.apellido}}</td>
-                    <td>{{u.rut}}</td>
-                </tr>
-                {% endfor %}  
-                </tbody>
-            </table>
-        </div>
-          <!--Fin de la Tabla-->
-          </div> 
-        <!--Mati Calendario-->
-        <div class= 'col-7'>
-          <div id='calendar'></div>
-        </div>   
-        
-        <div id="popup" class="position-fixed top-0 start-0 w-100 h-100 d-none">
-          <div class="position-relative d-flex align-items-center justify-content-center vh-100">
-            <div class="card p-4" style="width: 400px;">
-              <select id="usuarioSelect" class="selectpicker" data-live-search="true">
-                {% for usuario in usuarios %}
-                <option value="{{ usuario.id }}">{{ usuario.get_full_name }}</option>
-                {% endfor %}
-              </select>
-              <div class="card-footer mt-3 text-center">
-                <button id="agendarBtn" class="btn btn-primary mx-auto">Agendar hora</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        
-        
-        
-
-      </div>   
-    </div> 
       
     {% block header %} {% endblock %}
 
@@ -160,6 +83,7 @@
               
 
               var hora_agendada = moment(info.start).format('HH:mm');
+              
 
               var agendarBtn = document.getElementById('agendarBtn');
               agendarBtn.addEventListener('click', function(){
@@ -170,11 +94,18 @@
                   end: info.start,
                   color: 'yellow'
                 };
+
                 calendar.addEvent(event);
                 popup.classList.add('d-none');
-              });
 
+                var events = JSON.parse(localStorage.getItem('calendarioEventos')) || [];
+                events.push(event);
+                localStorage.setItem('calendarioEventos', JSON.stringify(events));
+                calendar.removeEvent(event);
+              });
+              
             },
+
             views:{
               timeGridFiveDay:{
                 type: 'timeGridWeek',
@@ -191,23 +122,32 @@
             locale: 'es',
             weekends: 'false',
             slotMinTime: '04:00',
-            slotMaxTime: '11:00'
+            slotMaxTime: '11:00',
 
             });
-
+            var storedEvents = JSON.parse(localStorage.getItem('calendarioEventos')) || [];
+            storedEvents.forEach(function(event) {
+             calendar.addEvent(event);
+            });
+            
             var slotDuration = calendar.getOption('slotDuration')
             console.log(slotDuration)
             calendar.render();
           });
-  
+          
+
       </script>
 
       <script>
         $(document).ready(function() {
           $('#usuarioSelect').select2();
         });
-        </script>
-        
+      </script>
+      <script>
+        document.getElementById('cerrarBtn').addEventListener('click', function() {
+          document.getElementById('popup').classList.add('d-none');
+        });
+      </script>            
     
 </body>
 </html>
