@@ -21,8 +21,8 @@ class UsuarioForm(forms.ModelForm):
 
 class ComentarioForm(forms.ModelForm):
 
-    autor = forms.CharField(label='Autor', required=True, min_length=0, max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Introduzca su Nombre','style': 'display:flex;'}))
-    contenido =forms.CharField(label='Contenido', required=True, min_length=0, max_length=500, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Introduzca su Tema','style': 'display:flex;'}))
+    autor = forms.CharField(label='Autor', required=True, min_length=2, max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Introduzca su Nombre','style': 'display:flex;'}))
+    contenido =forms.CharField(label='Contenido', required=True, min_length=5, max_length=500, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Introduzca su Tema','style': 'display:flex;'}))
 
     class Meta:
         model = Comentario
